@@ -34,7 +34,7 @@ public class WordExtractor
         }
         catch(IOException e)
         {
-            System.err.println(e);
+            System.err.println(e.getMessage());
         }
     }
 
