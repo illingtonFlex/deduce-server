@@ -12,13 +12,14 @@ import java.util.stream.Stream;
 
 public class CreateWordsFileFromSource
 {
-    private static final String DEFAULT_OUTFILE = "./deduceWordlist.txt";
+    private static final String DEFAULT_OUTFILE = "deduceWordlist.txt";
 
     private static Predicate<String> hasLengthOfFive = s -> s.length() == 5;
     private static Predicate<String> hasNoDuplicateCharacters = CreateWordsFileFromSource::hasNoDuplicateCharacters;
 
     public static void main(String[] args)
     {
+        long time = System.currentTimeMillis();
         String filePath = parseArgs(args);
 
         try(Stream<String> wordStream = Files.lines(new File(filePath).toPath(), Charset.defaultCharset()))
@@ -36,6 +37,11 @@ public class CreateWordsFileFromSource
         {
             System.err.println(e.getMessage());
         }
+        System.out.println(
+                "Completed in "
+                        + (System.currentTimeMillis() - time)
+                        + " milliseconds.\nGenerated data file: "
+                        + Paths.get(DEFAULT_OUTFILE).toAbsolutePath());
     }
 
     private static String parseArgs(String[] args)
