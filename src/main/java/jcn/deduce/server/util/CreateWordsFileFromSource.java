@@ -10,12 +10,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WordExtractor
+public class CreateWordsFileFromSource
 {
     private static final String DEFAULT_OUTFILE = "./deduceWordlist.txt";
 
     private static Predicate<String> hasLengthOfFive = s -> s.length() == 5;
-    private static Predicate<String> hasNoDuplicateCharacters = WordExtractor::hasNoDuplicateCharacters;
+    private static Predicate<String> hasNoDuplicateCharacters = CreateWordsFileFromSource::hasNoDuplicateCharacters;
 
     public static void main(String[] args)
     {
