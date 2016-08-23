@@ -1,5 +1,7 @@
 package jcn.deduce.server.util;
 
+import org.apache.commons.lang3.time.StopWatch;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -14,48 +16,48 @@ public class CreateWordsFileFromSource
 {
     private static final String DEFAULT_OUTFILE = "deduceWordlist.txt";
 
-    private static Predicate<String> hasLengthOfFive = s -> s.length() == 5;
-    private static Predicate<String> hasNoDuplicateCharacters = CreateWordsFileFromSource::hasNoDuplicateCharacters;
+    private StopWatch stopWatch;
+    private Predicate<String> hasLengthOfFive = s -> s.length() == 5;
+
+    public CreateWordsFileFromSource()
+    {
+        stopWatch = new StopWatch();
+        stopWatch.start();
+    }
 
     public static void main(String[] args)
     {
-        long time = System.currentTimeMillis();
-        String filePath = parseArgs(args);
+        CreateWordsFileFromSource cwffs = new CreateWordsFileFromSource();
+        cwffs.run(parseArgs(args));
+    }
 
+    private void run(String filePath)
+    {
         try(Stream<String> wordStream = Files.lines(new File(filePath).toPath(), Charset.defaultCharset()))
         {
             Files.write(Paths.get(DEFAULT_OUTFILE),
                     wordStream
-                        .filter(hasLengthOfFive)
-                        .filter(hasNoDuplicateCharacters)
-                        .map(String::toUpperCase)
-                        .sorted(new ShuffledComparator<>())
-                        .collect(Collectors.toList())
+                            .filter(hasLengthOfFive)
+                            .filter(this::hasNoDuplicateCharacters)
+                            .map(String::toUpperCase)
+                            .sorted(new ShuffledComparator<>())
+                            .collect(Collectors.toList())
             );
         }
         catch(IOException e)
         {
             System.err.println(e.getMessage());
+            quit();
         }
+
         System.out.println(
                 "Completed in "
-                        + (System.currentTimeMillis() - time)
+                        + stopWatch.getTime()
                         + " milliseconds.\nGenerated data file: "
                         + Paths.get(DEFAULT_OUTFILE).toAbsolutePath());
     }
 
-    private static String parseArgs(String[] args)
-    {
-        if(args.length < 1)
-        {
-            System.err.println("ERROR! Please provide path to words file as command line argument.");
-            System.exit(-1);
-        }
-
-        return args[0];
-    }
-
-    private static boolean hasNoDuplicateCharacters(String s)
+    private boolean hasNoDuplicateCharacters(String s)
     {
         Map<Character, Character> map = new HashMap<>();
         char[] chars = s.toCharArray();
@@ -73,5 +75,21 @@ public class CreateWordsFileFromSource
         }
 
         return true;
+    }
+
+    private static String parseArgs(String[] args)
+    {
+        if(args.length < 1)
+        {
+            System.err.println("ERROR! Please provide path to words file as command line argument.");
+            quit();
+        }
+
+        return args[0];
+    }
+
+    private static void quit()
+    {
+        System.exit(-1);
     }
 }
