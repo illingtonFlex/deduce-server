@@ -40,8 +40,7 @@ public class CreateWordsFileFromSource
                               .filter(this::hasNoDuplicateCharacters)
                               .map(String::toUpperCase)
                               .sorted(new ShuffledComparator<>())
-                              .collect(Collectors.toList())
-            );
+                              .collect(Collectors.toList()));
         }
         catch(IOException e)
         {
