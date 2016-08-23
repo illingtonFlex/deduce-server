@@ -36,12 +36,11 @@ public class CreateWordsFileFromSource
         try(Stream<String> wordStream = Files.lines(new File(filePath).toPath(), Charset.defaultCharset()))
         {
             Files.write(Paths.get(DEFAULT_OUTFILE),
-                    wordStream
-                            .filter(hasLengthOfFive)
-                            .filter(this::hasNoDuplicateCharacters)
-                            .map(String::toUpperCase)
-                            .sorted(new ShuffledComparator<>())
-                            .collect(Collectors.toList())
+                    wordStream.filter(hasLengthOfFive)
+                              .filter(this::hasNoDuplicateCharacters)
+                              .map(String::toUpperCase)
+                              .sorted(new ShuffledComparator<>())
+                              .collect(Collectors.toList())
             );
         }
         catch(IOException e)
