@@ -28,6 +28,11 @@ public class DeduceMatch
         this.events = new ArrayList<>();
     }
 
+    public String getId()
+    {
+        return this.id;
+    }
+
     public String getSolution()
     {
         return solution;
@@ -78,14 +83,29 @@ public class DeduceMatch
 
 class Event
 {
-    private String name;
+    private String eventName;
     private String details;
     private Date date;
 
     public Event(String eventName, String details)
     {
-        this.name = eventName;
+        this.eventName = eventName;
         this.details = details;
         this.date = new Date();
+    }
+
+    public String getEventName()
+    {
+        return Event.this.eventName;
+    }
+
+    public String getDetails()
+    {
+        return Event.this.details;
+    }
+
+    public String getDate()
+    {
+        return Event.this.date.toString();
     }
 }

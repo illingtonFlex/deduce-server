@@ -14,18 +14,16 @@ public class DeduceWords
     private static String WORDS_FILE = "deduceWordlist.txt";
     private static List<String> words = null;
 
-    public static String getRandomWord()
-    {
-        init();
-
-        return words.get(new Random().nextInt(words.size()));
-    }
-
     public static List<String> getAllWords()
     {
         init();
 
         return words;
+    }
+
+    public static String getRandomWord()
+    {
+        return getAllWords().get(new Random().nextInt(words.size()));
     }
 
     private static void init()
