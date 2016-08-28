@@ -9,7 +9,7 @@ public class RandomWordTest {
     @Test
     public void testGetRandomWord() throws Exception
     {
-        String word = RandomWord.getRandomWord();
+        String word = DeduceWords.getRandomWord();
 
         assertNotNull(word);
         assertTrue(word.length() == 5);

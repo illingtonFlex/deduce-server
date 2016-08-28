@@ -8,4 +8,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication
 @EnableMongoRepositories
 public interface DeduceMatchRepository extends MongoRepository<DeduceMatch, String>
-{}
+{
+    DeduceMatch findById(String id);
+}

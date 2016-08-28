@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class RandomWord
+public class DeduceWords
 {
     private static String WORDS_FILE = "deduceWordlist.txt";
     private static List<String> words = null;
@@ -19,6 +19,13 @@ public class RandomWord
         init();
 
         return words.get(new Random().nextInt(words.size()));
+    }
+
+    public static List<String> getAllWords()
+    {
+        init();
+
+        return words;
     }
 
     private static void init()
@@ -31,7 +38,7 @@ public class RandomWord
 
     private static void loadWords()
     {
-        Optional<URL> optFileUrl = Optional.ofNullable(RandomWord.class.getClassLoader().getResource(WORDS_FILE));
+        Optional<URL> optFileUrl = Optional.ofNullable(DeduceWords.class.getClassLoader().getResource(WORDS_FILE));
 
         if(optFileUrl.isPresent())
         {
