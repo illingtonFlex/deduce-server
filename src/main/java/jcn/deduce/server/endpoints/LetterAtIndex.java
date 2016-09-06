@@ -1,6 +1,7 @@
 package jcn.deduce.server.endpoints;
 
 import jcn.deduce.server.model.DeduceMatch;
+import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,28 +35,40 @@ public class LetterAtIndex
         Response.Status status = Response.Status.NOT_FOUND;
 
         Character entity = null;
+        String msg = null;
         Optional<DeduceMatch>  match = Optional.ofNullable(repository.findById(id));
 
-        if(match.isPresent()) {
+        if(index != null && index >= 0 && index < 20)
+        {
+            if (match.isPresent())
+            {
 
-            status = Response.Status.OK;
+                status = Response.Status.OK;
 
-            List<Character> filteredAlphabet = ALPHABET.stream()
-                    .filter(c -> !c.equals(match.get().getWord().charAt(0)))
-                    .filter(c -> !c.equals(match.get().getWord().charAt(1)))
-                    .filter(c -> !c.equals(match.get().getWord().charAt(2)))
-                    .filter(c -> !c.equals(match.get().getWord().charAt(3)))
-                    .filter(c -> !c.equals(match.get().getWord().charAt(4)))
-                    .collect(Collectors.toList());
+                List<Character> filteredAlphabet = ALPHABET.stream()
+                        .filter(c -> !c.equals(match.get().getWord().charAt(0)))
+                        .filter(c -> !c.equals(match.get().getWord().charAt(1)))
+                        .filter(c -> !c.equals(match.get().getWord().charAt(2)))
+                        .filter(c -> !c.equals(match.get().getWord().charAt(3)))
+                        .filter(c -> !c.equals(match.get().getWord().charAt(4)))
+                        .collect(Collectors.toList());
 
-            match.get().addEvent(
-                    "LETTER_AT_INDEX",
-                    String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
+                match.get().addEvent(
+                        "LETTER_AT_INDEX",
+                        String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
 
-            repository.save(match.get());
-            entity = filteredAlphabet.get(index);
+                repository.save(match.get());
+                msg = "Success";
+                entity = filteredAlphabet.get(index);
+            }
+        }
+        else
+        {
+            msg = "Index out of bounds";
         }
 
-        return Response.status(status).entity(entity).build();
+        return Response.status(status)
+                .entity(new DeduceResponseEntity(status, entity, msg))
+                .build();
     }
 }

@@ -1,6 +1,7 @@
 package jcn.deduce.server.endpoints;
 
 import jcn.deduce.server.model.DeduceMatch;
+import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,14 +27,19 @@ public class Details
     {
         Response.Status status = Response.Status.NOT_FOUND;
         DeduceMatch entity = null;
+        String msg = "Match not found";
+
         Optional<DeduceMatch> match = Optional.ofNullable(repository.findById(id));
 
         if(match.isPresent())
         {
             status = Response.Status.OK;
             entity = match.get();
+            msg = "Success";
         }
 
-        return Response.status(status).entity(entity).build();
+        return Response.status(status)
+                .entity(new DeduceResponseEntity(status, entity, msg))
+                .build();
     }
 }

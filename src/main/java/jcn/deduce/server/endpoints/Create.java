@@ -1,6 +1,7 @@
 package jcn.deduce.server.endpoints;
 
 import jcn.deduce.server.model.DeduceMatch;
+import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
 import jcn.deduce.server.util.DeduceWords;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class Create
         match = repository.save(match);
         URI matchUri = uriInfo.getBaseUriBuilder().path(String.format("/%s/details", match.getId())).build();
 
-        return Response.created(matchUri).entity(match).build();
+        return Response.created(matchUri)
+                .entity(new DeduceResponseEntity(Response.Status.CREATED, match, "Match created: " + matchUri))
+                .build();
     }
 }
