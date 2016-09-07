@@ -32,43 +32,55 @@ public class LetterAtIndex
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLetterAtIndex(@PathParam("match_id") String id, @PathParam("index") Integer index)
     {
-        Response.Status status = Response.Status.NOT_FOUND;
+        DeduceResponseEntity de =
+                new DeduceResponseEntity(Response.Status.NOT_FOUND,
+                        null,
+                        String.format("Match id %s not found.", id));
 
-        Character entity = null;
-        String msg = null;
         Optional<DeduceMatch>  match = Optional.ofNullable(repository.findById(id));
 
         if(index != null && index >= 0 && index < 20)
         {
             if (match.isPresent())
             {
+                if(!match.get().getIsSolved())
+                {
 
-                status = Response.Status.OK;
+                    List<Character> filteredAlphabet = ALPHABET.stream()
+                            .filter(c -> !c.equals(match.get().getWord().charAt(0)))
+                            .filter(c -> !c.equals(match.get().getWord().charAt(1)))
+                            .filter(c -> !c.equals(match.get().getWord().charAt(2)))
+                            .filter(c -> !c.equals(match.get().getWord().charAt(3)))
+                            .filter(c -> !c.equals(match.get().getWord().charAt(4)))
+                            .collect(Collectors.toList());
 
-                List<Character> filteredAlphabet = ALPHABET.stream()
-                        .filter(c -> !c.equals(match.get().getWord().charAt(0)))
-                        .filter(c -> !c.equals(match.get().getWord().charAt(1)))
-                        .filter(c -> !c.equals(match.get().getWord().charAt(2)))
-                        .filter(c -> !c.equals(match.get().getWord().charAt(3)))
-                        .filter(c -> !c.equals(match.get().getWord().charAt(4)))
-                        .collect(Collectors.toList());
+                    match.get().addEvent(
+                            "LETTER_AT_INDEX",
+                            String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
 
-                match.get().addEvent(
-                        "LETTER_AT_INDEX",
-                        String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
+                    repository.save(match.get());
 
-                repository.save(match.get());
-                msg = "Success";
-                entity = filteredAlphabet.get(index);
+                    de = new DeduceResponseEntity(Response.Status.OK,
+                            filteredAlphabet.get(index),
+                            "Success");
+                }
+                else
+                {
+                    de = new DeduceResponseEntity(Response.Status.UNAUTHORIZED,
+                            match.get(),
+                            String.format("Match id %s already solved.", id));
+                }
             }
         }
         else
         {
-            msg = "Index out of bounds";
+            de = new DeduceResponseEntity(Response.Status.BAD_REQUEST,
+                    null,
+                    "Index out of bounds");
         }
 
-        return Response.status(status)
-                .entity(new DeduceResponseEntity(status, entity, msg))
+        return Response.status(de.getStatus())
+                .entity(de)
                 .build();
     }
 }

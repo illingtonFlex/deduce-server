@@ -25,9 +25,8 @@ public class Solve
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLetterAtIndex(@PathParam("match_id") String id, @PathParam("solution") String solution)
     {
-        Response.Status status = Response.Status.NOT_FOUND;
-        String msg = String.format("Match id %s not found.", id);
-        DeduceMatch entity = null;
+        DeduceResponseEntity de =
+                new DeduceResponseEntity(Response.Status.NOT_FOUND, null, String.format("Match id %s not found.", id));
 
         Optional<DeduceMatch> match = Optional.ofNullable(repository.findById(id));
 
@@ -35,10 +34,7 @@ public class Solve
         {
             if(!match.get().getIsSolved())
             {
-                entity = match.get();
-                status = Response.Status.OK;
-                msg = "Success";
-
+                DeduceMatch entity = match.get();
                 entity.addEvent("SOLUTION_ATTEMPT", solution);
 
                 if (entity.getWord().equalsIgnoreCase(solution))
@@ -47,17 +43,19 @@ public class Solve
                     entity.setSolution(solution);
                 }
 
-                repository.save(entity);
+                entity = repository.save(entity);
+                de = new DeduceResponseEntity(Response.Status.OK, entity, "Success");
             }
             else
             {
-                status = Response.Status.UNAUTHORIZED;
-                msg = String.format("Match id %s already solved.", id);
+                de = new DeduceResponseEntity(Response.Status.UNAUTHORIZED,
+                        match.get(),
+                        String.format("Match id %s already solved.", id));
             }
         }
 
-        return Response.status(status)
-                .entity(new DeduceResponseEntity(status, entity, msg))
+        return Response.status(de.getStatus())
+                .entity(de)
                 .build();
     }
 }

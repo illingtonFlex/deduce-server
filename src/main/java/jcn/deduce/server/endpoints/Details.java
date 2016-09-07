@@ -25,21 +25,18 @@ public class Details
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMatchDetails(@PathParam("match_id") String id)
     {
-        Response.Status status = Response.Status.NOT_FOUND;
-        DeduceMatch entity = null;
-        String msg = "Match not found";
+        DeduceResponseEntity de =
+                new DeduceResponseEntity(Response.Status.NOT_FOUND, null, String.format("Match id %snot found", id));
 
         Optional<DeduceMatch> match = Optional.ofNullable(repository.findById(id));
 
         if(match.isPresent())
         {
-            status = Response.Status.OK;
-            entity = match.get();
-            msg = "Success";
+            de = new DeduceResponseEntity(Response.Status.OK, match.get(), "Success");
         }
 
-        return Response.status(status)
-                .entity(new DeduceResponseEntity(status, entity, msg))
+        return Response.status(de.getStatus())
+                .entity(de)
                 .build();
     }
 }
