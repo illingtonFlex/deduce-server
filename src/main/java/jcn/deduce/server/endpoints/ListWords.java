@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Component
-@Path("/listWords")
+@Path("/listValidWords")
 public class ListWords
 {
     @GET

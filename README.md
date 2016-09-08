@@ -62,7 +62,7 @@ words.
         
         {
           "status": "OK",
-          "message": "Success",
+          "message": "Match found",
           "entity": {
             "id": "57d0d10d85770e0319119843",
             "solution": "[UNSOLVED]",
@@ -74,7 +74,8 @@ words.
         
 - **GET** /{match_id}/letterAtIndex/{index}
 
-    Returns the letter at specified index with the alphabet subset. This also adds an event to the match details.
+    Returns the letter at specified index within the alphabet subset for the specified match. This also adds an event 
+    to the match details.
     
     Example response:
     
@@ -91,7 +92,8 @@ words.
 
 - **PUT** /{match_id}/solve/{solution}
 
-    Returns match details, which will indicate successful or unsuccessful solution attempt.
+    Returns match details, which will indicate successful or unsuccessful solution attempt. This also adds an event to
+    the match deetails.
     
     Example response:
     
