@@ -18,6 +18,10 @@ public class DeduceMatch
     private Boolean isSolved;
     private List<Event> events;
 
+    private final String LETTER_AT_INDEX_EVENT_KEY = "LETTER_AT_INDEX";
+    private final String SOLUTION_ATTEMPT_EVENT_KEY = "SOLUTION_ATTEMPT";
+
+
     public DeduceMatch() {}
 
     public DeduceMatch(String word)
@@ -31,6 +35,11 @@ public class DeduceMatch
     public String getId()
     {
         return this.id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
     }
 
     public String getSolution()
@@ -53,9 +62,14 @@ public class DeduceMatch
         this.events = events;
     }
 
-    public void addEvent(String name, String desc)
+    public void addSolutionAttemptEvent(String solutionAttempt)
     {
-        this.events.add(new Event(name, desc));
+        this.events.add(new Event(SOLUTION_ATTEMPT_EVENT_KEY, solutionAttempt));
+    }
+
+    public void addIndexInquiryEvent(String desc)
+    {
+        this.events.add(new Event(LETTER_AT_INDEX_EVENT_KEY, desc));
     }
 
     public boolean getIsSolved()
@@ -72,6 +86,14 @@ public class DeduceMatch
     public String getWord()
     {
         return this.word;
+    }
+
+    @JsonIgnore
+    public boolean isReadyForSolving()
+    {
+        String lastEventName = events.get(events.size()-1).getEventName();
+
+        return !SOLUTION_ATTEMPT_EVENT_KEY.equals(lastEventName);
     }
 
     public void setWord(String word)
