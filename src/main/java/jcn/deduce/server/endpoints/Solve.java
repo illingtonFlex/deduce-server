@@ -3,7 +3,6 @@ package jcn.deduce.server.endpoints;
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.PUT;
@@ -18,8 +17,12 @@ import java.util.Optional;
 @Path("/{match_id}/solve/{solution}")
 public class Solve
 {
-    @Autowired
     private DeduceMatchRepository repository;
+
+    public Solve(DeduceMatchRepository repo)
+    {
+        this.repository = repo;
+    }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,24 +35,34 @@ public class Solve
 
         if(match.isPresent())
         {
-            if(!match.get().getIsSolved())
+            DeduceMatch entity = match.get();
+
+            if(!entity.getIsSolved())
             {
-                DeduceMatch entity = match.get();
-                entity.addEvent("SOLUTION_ATTEMPT", solution);
-
-                if (entity.getWord().equalsIgnoreCase(solution))
+                if(entity.isReadyForSolving())
                 {
-                    entity.setIsSolved(true);
-                    entity.setSolution(solution);
-                }
+                    entity.addSolutionAttemptEvent(solution);
 
-                entity = repository.save(entity);
-                de = new DeduceResponseEntity(Response.Status.OK, entity, "Success");
+                    if (entity.getWord().equalsIgnoreCase(solution))
+                    {
+                        entity.setIsSolved(true);
+                        entity.setSolution(solution);
+                    }
+
+                    entity = repository.save(entity);
+                    de = new DeduceResponseEntity(Response.Status.OK, entity, "Success");
+                }
+                else
+                {
+                    de = new DeduceResponseEntity(Response.Status.UNAUTHORIZED,
+                            entity,
+                            "Incorrect solution attempt must be followed by index query.");
+                }
             }
             else
             {
                 de = new DeduceResponseEntity(Response.Status.UNAUTHORIZED,
-                        match.get(),
+                        entity,
                         String.format("Match id %s already solved.", id));
             }
         }
