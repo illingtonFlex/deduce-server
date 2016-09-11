@@ -3,7 +3,6 @@ package jcn.deduce.server.endpoints;
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -18,8 +17,12 @@ import java.util.Optional;
 @Path("/{match_id}/details")
 public class Details
 {
-    @Autowired
     private DeduceMatchRepository repository;
+
+    public Details(DeduceMatchRepository repo)
+    {
+        this.repository = repo;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

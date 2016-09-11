@@ -3,7 +3,6 @@ package jcn.deduce.server.endpoints;
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -25,8 +24,12 @@ public class LetterAtIndex
             Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                     'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
-    @Autowired
     private DeduceMatchRepository repository;
+
+    public LetterAtIndex(DeduceMatchRepository repo)
+    {
+        this.repository = repo;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,8 +57,7 @@ public class LetterAtIndex
                             .filter(c -> !c.equals(match.get().getWord().charAt(4)))
                             .collect(Collectors.toList());
 
-                    match.get().addEvent(
-                            "LETTER_AT_INDEX",
+                    match.get().addIndexInquiryEvent(
                             String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
 
                     repository.save(match.get());
