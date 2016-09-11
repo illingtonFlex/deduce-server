@@ -26,22 +26,25 @@ public class TestCreate
     @Test
     public void testCreate()
     {
-        ResponseEntity<DeduceResponseEntity> entity =
+        ResponseEntity<DeduceResponseEntity> createdEntity =
                 this.restTemplate.postForEntity("/createMatch",
                         new LinkedMultiValueMap<String, String>(),
                         DeduceResponseEntity.class);
 
-        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(entity.getBody().getStatus()).isEqualTo(Response.Status.CREATED);
-        assertThat(entity.getBody().getMessage()).contains("Match created: ");
-        assertThat(entity.getHeaders().containsKey("Location")).isTrue();
-        assertThat(entity.getHeaders().get("Location").size()).isEqualTo(1);
+        assertThat(createdEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(createdEntity.getBody().getStatus()).isEqualTo(Response.Status.CREATED);
+        assertThat(createdEntity.getBody().getMessage()).contains("Match created: ");
+        assertThat(createdEntity.getHeaders().containsKey("Location")).isTrue();
+        assertThat(createdEntity.getHeaders().get("Location").size()).isEqualTo(1);
 
-        String id = (String)((LinkedHashMap)entity.getBody().getEntity()).get("id");
+        String id = (String)((LinkedHashMap)createdEntity.getBody().getEntity()).get("id");
 
-        entity = this.restTemplate.getForEntity(String.format("/%s/details", id), DeduceResponseEntity.class);
+        ResponseEntity<DeduceResponseEntity> gettedEntity =
+                this.restTemplate.getForEntity(String.format("/%s/details", id), DeduceResponseEntity.class);
 
-        assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(gettedEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat((String)((LinkedHashMap)createdEntity.getBody().getEntity()).get("id")).isEqualTo(id);
+
 
         //TODO: Keep going.
     }
