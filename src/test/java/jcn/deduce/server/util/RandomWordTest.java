@@ -1,5 +1,6 @@
 package jcn.deduce.server.util;
 
+import jcn.deduce.server.model.DeduceWords;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

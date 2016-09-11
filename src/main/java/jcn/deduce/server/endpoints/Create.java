@@ -3,7 +3,7 @@ package jcn.deduce.server.endpoints;
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
 import jcn.deduce.server.mongo.DeduceMatchRepository;
-import jcn.deduce.server.util.DeduceWords;
+import jcn.deduce.server.model.DeduceWords;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;

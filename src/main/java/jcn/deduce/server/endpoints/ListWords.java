@@ -1,6 +1,6 @@
 package jcn.deduce.server.endpoints;
 
-import jcn.deduce.server.util.DeduceWords;
+import jcn.deduce.server.model.DeduceWords;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;

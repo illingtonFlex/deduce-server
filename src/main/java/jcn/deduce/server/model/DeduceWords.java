@@ -1,4 +1,4 @@
-package jcn.deduce.server.util;
+package jcn.deduce.server.model;
 
 import java.io.File;
 import java.io.IOException;
