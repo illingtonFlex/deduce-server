@@ -1,4 +1,4 @@
-package jcn.deduce.server.mongo;
+package jcn.deduce.server.db;
 
 import jcn.deduce.server.model.DeduceMatch;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

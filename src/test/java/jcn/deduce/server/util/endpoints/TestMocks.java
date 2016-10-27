@@ -2,7 +2,7 @@ package jcn.deduce.server.util.endpoints;
 
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
-import jcn.deduce.server.mongo.DeduceMatchRepository;
+import jcn.deduce.server.db.DeduceMatchRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
