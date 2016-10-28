@@ -14,18 +14,16 @@ import javax.ws.rs.core.Response;
 import java.util.Optional;
 
 @Component
-@Path("/{match_id}/solve/{solution}")
-public class Solve
+public class Solve extends DeduceMatchResource
 {
-    private DeduceMatchRepository repository;
-
     public Solve(DeduceMatchRepository repo)
     {
-        this.repository = repo;
+        super(repo);
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{match_id}/solve/{solution}")
     public Response getLetterAtIndex(@PathParam("match_id") String id, @PathParam("solution") String solution)
     {
         DeduceResponseEntity de =

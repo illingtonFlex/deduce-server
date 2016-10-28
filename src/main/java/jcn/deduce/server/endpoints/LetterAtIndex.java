@@ -17,22 +17,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-@Path("/{match_id}/letterAtIndex/{index}")
-public class LetterAtIndex
+public class LetterAtIndex extends DeduceMatchResource
 {
     private static final List<Character> ALPHABET =
             Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                     'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
-    private DeduceMatchRepository repository;
-
     public LetterAtIndex(DeduceMatchRepository repo)
     {
-        this.repository = repo;
+        super(repo);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{match_id}/letterAtIndex/{index}")
     public Response getLetterAtIndex(@PathParam("match_id") String id, @PathParam("index") Integer index)
     {
         DeduceResponseEntity de =
@@ -48,14 +46,7 @@ public class LetterAtIndex
             {
                 if(!match.get().getIsSolved())
                 {
-
-                    List<Character> filteredAlphabet = ALPHABET.stream()
-                            .filter(c -> !c.equals(match.get().getWord().charAt(0)))
-                            .filter(c -> !c.equals(match.get().getWord().charAt(1)))
-                            .filter(c -> !c.equals(match.get().getWord().charAt(2)))
-                            .filter(c -> !c.equals(match.get().getWord().charAt(3)))
-                            .filter(c -> !c.equals(match.get().getWord().charAt(4)))
-                            .collect(Collectors.toList());
+                    List<Character> filteredAlphabet = filterAlphabet(match.get().getWord());
 
                     match.get().addIndexInquiryEvent(
                             String.format("index: %s - letter: %s", index, filteredAlphabet.get(index)));
@@ -84,5 +75,16 @@ public class LetterAtIndex
         return Response.status(de.getStatus())
                 .entity(de)
                 .build();
+    }
+
+    private List<Character> filterAlphabet(String word)
+    {
+        return ALPHABET.stream()
+                .filter(c -> !c.equals(word.charAt(0)))
+                .filter(c -> !c.equals(word.charAt(1)))
+                .filter(c -> !c.equals(word.charAt(2)))
+                .filter(c -> !c.equals(word.charAt(3)))
+                .filter(c -> !c.equals(word.charAt(4)))
+                .collect(Collectors.toList());
     }
 }

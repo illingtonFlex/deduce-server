@@ -16,28 +16,25 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
-
 @Component
-@Path("/createMatch")
-public class Create
+public class Create extends DeduceMatchResource
 {
     @Context
     UriInfo uriInfo;
 
-    private DeduceMatchRepository repository;
-
     public Create(DeduceMatchRepository repo)
     {
-        this.repository = repo;
+        super(repo);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/createMatch")
     public Response createDeduceMatch(@Context HttpServletResponse response)
     {
         DeduceMatch match = new DeduceMatch(DeduceWords.getRandomWord());
         match = repository.save(match);
-        URI matchUri = uriInfo.getBaseUriBuilder().path(String.format("/%s/details", match.getId())).build();
+        URI matchUri = uriInfo.getBaseUriBuilder().path(String.format("deduceMatch/%s/details", match.getId())).build();
 
         return Response.created(matchUri)
                 .entity(new DeduceResponseEntity(Response.Status.CREATED, match, "Match created: " + matchUri))

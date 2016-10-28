@@ -14,18 +14,16 @@ import javax.ws.rs.core.Response;
 import java.util.Optional;
 
 @Component
-@Path("/{match_id}/details")
-public class Details
+public class Details extends DeduceMatchResource
 {
-    private DeduceMatchRepository repository;
-
     public Details(DeduceMatchRepository repo)
     {
-        this.repository = repo;
+        super(repo);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{match_id}/details")
     public Response getMatchDetails(@PathParam("match_id") String id)
     {
         DeduceResponseEntity de =
