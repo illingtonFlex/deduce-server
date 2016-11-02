@@ -1,5 +1,6 @@
 package jcn.deduce.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 
 import java.util.Random;
@@ -18,6 +19,7 @@ public class DeduceWordsList
         this.words = words;
     }
 
+    @JsonIgnore
     public String getId() {
         return id;
     }
