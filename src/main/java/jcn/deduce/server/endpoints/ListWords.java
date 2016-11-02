@@ -49,17 +49,4 @@ public class ListWords
                 .entity(de)
                 .build();
     }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createWordsList(String[] words)
-    {
-        DeduceWordsList dwl = new DeduceWordsList();
-        dwl.setWords(words);
-
-        repository.save(dwl);
-
-        return Response.ok().build();
-    }
 }

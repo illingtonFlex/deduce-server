@@ -1,5 +1,6 @@
 package jcn.deduce.server.endpoints;
 
+import jcn.deduce.server.RandomWordNotFoundException;
 import jcn.deduce.server.db.DeduceWordsRepository;
 import jcn.deduce.server.model.DeduceMatch;
 import jcn.deduce.server.model.DeduceResponseEntity;
@@ -38,10 +39,32 @@ public class Create extends DeduceMatchResource
     @Path("/createMatch")
     public Response createDeduceMatch(@Context HttpServletResponse response)
     {
-        DeduceMatch match = new DeduceMatch();
+        Response retVal;
 
-        DeduceResponseEntity de =
-                new DeduceResponseEntity(Response.Status.NOT_FOUND, match, "ERROR");
+        try
+        {
+            DeduceMatch match = repository.save(new DeduceMatch(getRandomWord()));
+            URI matchUri = uriInfo.getBaseUriBuilder().path(String.format("deduceMatch/%s/details", match.getId())).build();
+
+            retVal = Response.created(matchUri)
+                    .entity(new DeduceResponseEntity(Response.Status.CREATED, match, "Match created: " + matchUri))
+                    .build();
+
+        }
+        catch(RandomWordNotFoundException de)
+        {
+            retVal = Response.serverError()
+                    .entity(new DeduceResponseEntity(Response.Status.NOT_FOUND, null,
+                            String.format("Error while creating new match: %s", de.toString())))
+                    .build();
+        }
+
+        return retVal;
+    }
+
+    private String getRandomWord() throws RandomWordNotFoundException
+    {
+        String randomWord;
 
         Optional<List<DeduceWordsList>> optResList = Optional.of(wordsRepo.findAll());
 
@@ -53,14 +76,25 @@ public class Create extends DeduceMatchResource
             {
                 DeduceWordsList dwl = list.get(0);
 
-                match = repository.save(new DeduceMatch(dwl.getRandomWord()));
+                if(dwl != null)
+                {
+                    randomWord = dwl.getRandomWord();
+                }
+                else
+                {
+                    throw new RandomWordNotFoundException("Null words list in db.");
+                }
+            }
+            else
+            {
+                throw new RandomWordNotFoundException("Empty words list in db.");
             }
         }
+        else
+        {
+            throw new RandomWordNotFoundException("No words list found in db.");
+        }
 
-        URI matchUri = uriInfo.getBaseUriBuilder().path(String.format("deduceMatch/%s/details", match.getId())).build();
-
-        return Response.created(matchUri)
-                .entity(new DeduceResponseEntity(Response.Status.CREATED, match, "Match created: " + matchUri))
-                .build();
+        return randomWord;
     }
 }

@@ -27,7 +27,7 @@ public class Details extends DeduceMatchResource
     public Response getMatchDetails(@PathParam("match_id") String id)
     {
         DeduceResponseEntity de =
-                new DeduceResponseEntity(Response.Status.NOT_FOUND, null, String.format("Match id %snot found", id));
+                new DeduceResponseEntity(Response.Status.NOT_FOUND, null, String.format("Match id %s not found", id));
 
         Optional<DeduceMatch> match = Optional.ofNullable(repository.findById(id));
 
