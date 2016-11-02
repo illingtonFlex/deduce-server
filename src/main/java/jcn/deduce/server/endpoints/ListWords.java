@@ -26,22 +26,18 @@ public class ListWords
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDeduceWordsList()
     {
-        DeduceWordsList dwl = new DeduceWordsList();
-
         DeduceResponseEntity de =
-                new DeduceResponseEntity(Response.Status.NOT_FOUND, dwl, "ERROR: Words list not found.");
+                new DeduceResponseEntity(Response.Status.NOT_FOUND, new DeduceWordsList(), "ERROR: Words list not found.");
 
         Optional<List<DeduceWordsList>> optResList = Optional.of(repository.findAll());
 
         if(optResList.isPresent())
         {
-            List<DeduceWordsList> dwlList = optResList.get();
+            List<DeduceWordsList> dwl = optResList.get();
 
-            if(dwlList.size() > 0)
+            if(dwl.size() > 0)
             {
-                dwl = dwlList.get(0);
-
-                de = new DeduceResponseEntity(Response.Status.OK, dwl, "SUCCESS: Words list found.");
+                de = new DeduceResponseEntity(Response.Status.OK, dwl.get(0), "SUCCESS: Words list found.");
             }
         }
 
