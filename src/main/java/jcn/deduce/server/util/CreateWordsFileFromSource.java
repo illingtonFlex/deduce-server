@@ -1,5 +1,7 @@
 package jcn.deduce.server.util;
 
+import com.google.gson.Gson;
+import jcn.deduce.server.model.DeduceWordsList;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.io.File;
@@ -35,12 +37,22 @@ public class CreateWordsFileFromSource
     {
         try(Stream<String> wordStream = Files.lines(new File(filePath).toPath(), Charset.defaultCharset()))
         {
-            Files.write(Paths.get(DEFAULT_OUTFILE),
-                    wordStream.filter(hasLengthOfFive)
+             List<String> a = wordStream.filter(hasLengthOfFive)
                               .filter(this::hasNoDuplicateCharacters)
                               .map(String::toUpperCase)
                               .sorted(new ShuffledComparator<>())
-                              .collect(Collectors.toList()));
+                              .collect(Collectors.toList());
+
+            DeduceWordsList dwl = new DeduceWordsList();
+            String[] wordarr = new String[a.size()];
+            wordarr = a.toArray(wordarr);
+
+            dwl.setWords(wordarr);
+
+            String json = new Gson().toJson(dwl);
+
+            Files.write(Paths.get(DEFAULT_OUTFILE), json.getBytes());
+
         }
         catch(IOException e)
         {

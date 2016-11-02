@@ -11,15 +11,11 @@ public class JerseyConfig extends ResourceConfig
 {
     public JerseyConfig()
     {
-        packages("jcn.deduce.server");
         register(Create.class);
         register(ListWords.class);
         register(LetterAtIndex.class);
         register(Details.class);
-//        register(CORSResponseFilter.class);
-
-        //logging
-//        register(new LoggingFilter(Logger.getLogger(JerseyConfig.class.getName()), true));
+        register(Solve.class);
 
         //JSON parsing/conversion
         register(JacksonObjectMapperProvider.class);

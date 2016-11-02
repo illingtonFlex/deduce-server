@@ -1,0 +1,1 @@
+mongoimport --db test --collection deduceWordsList --file deduceWordlist.json --drop --stopOnError

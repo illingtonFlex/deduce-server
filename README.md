@@ -27,7 +27,7 @@ containing status and message values for indicating successful or erroneous invo
 will vary based on the endpoint. The one exception is the listValidWords endpoint, which returns only a JSON list of
 words.
 
-- **POST** /createMatch
+- **POST** /deduceMatch/createMatch
     
     Creates a new match, returning the match details, including match id, which will be used for subsequent operations.
     
@@ -50,7 +50,7 @@ words.
         }
         
         
-- **GET** /{match_id}/details
+- **GET** /deduceMatch/{match_id}/details
 
     Returns details for the specified match.
     
@@ -72,7 +72,7 @@ words.
         }
         
         
-- **GET** /{match_id}/letterAtIndex/{index}
+- **GET** /deduceMatch/{match_id}/letterAtIndex/{index}
 
     Returns the letter at specified index within the alphabet subset for the specified match. This also adds an event 
     to the match details.
@@ -90,7 +90,7 @@ words.
         }
         
 
-- **PUT** /{match_id}/solve/{solution}
+- **PUT** /deduceMatch/{match_id}/solve/{solution}
 
     Returns match details, which will indicate successful or unsuccessful solution attempt. This also adds an event to
     the match deetails.
@@ -123,7 +123,7 @@ words.
           }
         }
 
-- **GET** /listWords
+- **GET** /listValidWords
 
     Returns a list of all valid words fitting the criteria for consideration.
 
@@ -133,10 +133,16 @@ words.
         Date →Thu, 08 Sep 2016 03:15:11 GMT
         Transfer-Encoding →chunked
         
-        [
-          "MADLY",
-          "CARNY",
-          "SCOLD",
-          "CUPEL",
+        {
+          "status": "OK",
+          "message": "SUCCESS: Words list found.",
+          "entity": {
+            "id": "581932f909db5a75a65a814e",
+            "words": [
+              "DUSKY",
+              "HOCUS",
+              "QUICK",
+              "GRANT",
+              "OCTAD",
           ...
-        ]
+        }
