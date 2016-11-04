@@ -91,7 +91,7 @@ public class DeduceMatch
     @JsonIgnore
     public boolean isReadyForSolving()
     {
-        String lastEventName = events.get(events.size()-1).getEventName();
+        String lastEventName = events.size() > 0 ? events.get(events.size()-1).getEventName() : "NONE";
 
         return !SOLUTION_ATTEMPT_EVENT_KEY.equals(lastEventName);
     }
