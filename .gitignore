@@ -1,4 +1,5 @@
 .idea/
+.vagrant/
 .DS_Store
 target/
 deduce-server.iml
