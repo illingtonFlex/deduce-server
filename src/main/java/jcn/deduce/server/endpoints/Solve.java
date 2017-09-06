@@ -24,7 +24,7 @@ public class Solve extends DeduceMatchResource
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{match_id}/solve/{solution}")
-    public Response getLetterAtIndex(@PathParam("match_id") String id, @PathParam("solution") String solution)
+    public Response solve(@PathParam("match_id") String id, @PathParam("solution") String solution)
     {
         DeduceResponseEntity de =
                 new DeduceResponseEntity(Response.Status.NOT_FOUND, null, String.format("Match id %s not found.", id));
