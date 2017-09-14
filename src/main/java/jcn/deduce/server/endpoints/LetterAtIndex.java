@@ -40,7 +40,7 @@ public class LetterAtIndex extends DeduceMatchResource
 
         Optional<DeduceMatch>  match = Optional.ofNullable(repository.findById(id));
 
-        if(index != null && index >= 0 && index < 20)
+        if(index != null && index >= 0 && index < 21)
         {
             if (match.isPresent())
             {
