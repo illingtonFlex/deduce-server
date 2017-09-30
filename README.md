@@ -22,7 +22,7 @@ Build Command:
 
     $ mvn package
 
-Before you can run the application, you will need to launch MongoDB, listening to the port configured in applications.properties, which is 27018 by default. You will also need to load the database with some reference data. There is a Vagrant configuration available to set this up for you. To use Vagrant, you will first need to install Vagrant and VirtualBox. Once those dependencies are install, execute the following commands from the project root.
+Before you can run the application, you will need to launch MongoDB, listening to the port configured in applications.properties, which is 27018 by default. You will also need to load the database with some reference data. There is a Vagrant configuration available to set this up for you. To use Vagrant, you will first need to install Vagrant and VirtualBox. Once those dependencies are installed, execute the following commands from the project root.
 
 Launch Vagrant environment: 
 
