@@ -42,7 +42,7 @@ Load refernce data:
 
 Run Application:
 
-    $ java -jar target/mymodule-0.0.1-SNAPSHOT.jar
+    $ java -jar target/deduce-server-0.0.1-SNAPSHOT.war
 
 
 
