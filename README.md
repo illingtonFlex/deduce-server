@@ -8,7 +8,7 @@ create a UI enabling interactive play by a human.
 ## Getting Started
 
 
-## Runtime Environment
+### Runtime Environment
 
 In order to build and run the deduce-server application, you will need the following:
 
@@ -16,7 +16,7 @@ In order to build and run the deduce-server application, you will need the follo
 * Java 8
 * MongoDB 3.4
 
-### Build & Launch
+#### Build & Launch
 
 Build Command:      
 
