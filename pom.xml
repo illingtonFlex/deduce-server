@@ -6,10 +6,10 @@
 	<groupId>jcn.deduce</groupId>
 	<artifactId>deduce-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>deduce-server</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Deduce-api server</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -85,6 +85,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+        			<executable>true</executable>
+    			</configuration>
 			</plugin>
 		</plugins>
 	</build>
