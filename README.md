@@ -5,7 +5,48 @@ word puzzle through deductive reasoning. Implemented as a RESTful API, the appli
 educational tool, enabling players to implement client-side code to either solve the puzzles programmatically, or to 
 create a UI enabling interactive play by a human.
 
-##Rules
+## Getting Started
+
+
+### Runtime Environment
+
+In order to build and run the deduce-server application, you will need the following:
+
+* Maven 3
+* Java 8
+* MongoDB 3.4
+
+### Build & Launch
+
+Build Command:      
+
+    $ mvn package
+
+Before you can run the application, you will need to launch MongoDB, listening to the port configured in applications.properties, which is 27018 by default. You will also need to load the database with some reference data. There is a Vagrant configuration available to set this up for you. To use Vagrant, you will first need to install Vagrant and VirtualBox. Once those dependencies are installed, execute the following commands from the project root.
+
+Launch Vagrant environment: 
+
+    $ vagrant up
+
+Log into Vagrant VM:
+
+    $ vagrant ssh
+
+Load refernce data:
+
+    $ cd /vagrant/src/main/resources
+    
+    $ mongoimport --db test --collection deduceWordsList --file deduceWordlist.json --drop --stopOnError
+
+    $ exit
+
+Run Application:
+
+    $ java -jar target/deduce-server-0.0.1-SNAPSHOT.war
+
+
+
+## Game Rules
 
 A Deduce match begins with the selection of a secret word. The player's task is to deduce the word by asking questions. 
 Secret words must adhere to a set of criteria. Each word must be exactly five letters long, and contain no repeated 
@@ -20,7 +61,7 @@ player then asks which letters remain in the subset one at a time by naming inde
   known letters. The challenge is to solve the puzzle as quickly as possible. A player may only attempt one solution per 
   turn, an incorrect solution must be followed by an index inquiry prior to a subsequent solution attempt.
 
-##Endpoints
+## Endpoints
 
 All deduce-server endpoints return data as JSON. Response bodies represent a response entity wrapper, 
 containing status and message values for indicating successful or erroneous invocations, along with an entity. The entity 
