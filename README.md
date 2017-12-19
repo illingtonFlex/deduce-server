@@ -15,6 +15,8 @@ In order to build and run the deduce-server application, you will need the follo
 * Maven 3
 * Java 8
 * MongoDB 3.4
+* (optional) Vagrant 2.0.1
+* (optional) VirtualBox 5.2.2
 
 ### Build & Launch
 
@@ -22,7 +24,7 @@ Build Command:
 
     $ mvn package
 
-Before you can run the application, you will need to launch MongoDB, listening to the port configured in applications.properties, which is 27018 by default. You will also need to load the database with some reference data. There is a Vagrant configuration available to set this up for you. To use Vagrant, you will first need to install Vagrant and VirtualBox. Once those dependencies are installed, execute the following commands from the project root.
+Before you can run the application, you will need to launch MongoDB configured to listen on the port specified in applications.properties, which is 27018 by default. You will also need to load the database with some reference data. There is a Vagrant configuration available to set this up for you. To use Vagrant, you will first need to install Vagrant and VirtualBox. Once those dependencies are installed, execute the following commands from the project root.
 
 Launch Vagrant environment: 
 
@@ -32,7 +34,7 @@ Log into Vagrant VM:
 
     $ vagrant ssh
 
-Load refernce data:
+Load reference data:
 
     $ cd /vagrant/src/main/resources
     
@@ -42,9 +44,11 @@ Load refernce data:
 
 Run Application:
 
-    $ java -jar target/deduce-server-0.0.1-SNAPSHOT.war
+The Maven build should have generated an executable jar in the /target subdirectory. You can execute this jar to start the server:
 
+    $ ./target/deduce-server-{version}.jar
 
+Once this command is executed, you should see terminal output for the Spring Boot process. Once the server has started, it will be available on your local host, listening to port 8080. You can check the status of the server by pointing your web browser to http://localhost:8080/system/health
 
 ## Game Rules
 
