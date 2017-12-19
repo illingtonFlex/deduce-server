@@ -6,25 +6,27 @@
 
     <title>deduce-api</title>
 	
-	<meta name="author" content="your name" />
-	<meta name="description" content="" />
+	<meta name="author" content="illingtonFlex" />
+	<meta name="description" content="Landing page for deduce-api." />
 
 <!-- you should always add your stylesheet (css) in the head tag so that it starts loading before the page html is being displayed -->	
 	<style>
 	/*
 * multi-line comment
 */
-p{ line-height: 1em; }
+p{ line-height: 1.3em;
+   font-size: 12pt; }
 h1, h2, h3, h4{
     color: orange;
 	font-weight: normal;
 	line-height: 1.1em;
 	margin: 0 0 .5em 0;
 }
-h1{ font-size: 1.7em; }
-h2{ font-size: 1.5em; }
+h1{ font-size: 2.3em; 
+	color: black;}
+h2{ font-size: 1.9em; }
 a{
-	color: black;
+	color: #E85004;
 	text-decoration: none;
 }
 	a:hover,
@@ -73,18 +75,557 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 
 	<div id="page">
 		<div id="logo">
-			<h1><a href="/" id="logoLink">deduce-api</a></h1>
+			<h1>deduce-api</h1>
 		</div>
 
 		<div id="content">
 			<h2>Introduction</h2>
 			<p>
-				This is my first webpage! I was able to code all the HTML and CSS in order to make it. Watch out world of web design here I come!
+				Welcome to the landing page for deduce-api, a free, open-source RESTful web service API implementation of a game ruleset. The API is intended to be used as an educational tool, allowing developers to either attempt programmatic or algorithmic solution of the game, or the implementation of user interfaces allowing interactive play, or any other creative implementation you can think of.
 			</p>
 			<p> 
-				I can use my skills here to create websites for my business, my friends and family, my C.V, blog or articles. As well as any games or more experiment stuff (which is what the web is really all about). 
+				The server is (hopefully) currently running and available publicly on port 8080 on this domain (deduce-api.xyz). You can implement any client code you like to access the public instance, or you can download the server code from the <a href="https://github.com/illingtonFlex/deduce-server">GitHub repository</a> and run it locally.
+			</p>
+			<p>
+				There is also a reference algorithmic client implementation available <a href="https://github.com/illingtonFlex/deduce-client-algorithmic">here</a>. This client is written in Node.js, and demonstrates a naive or "brute-force" solution with a best-case scenario of 22 steps to solve. Surely you can find a more clever algorithm.
+			</p>
+
+			<p>
+				There is a server status page <a href="#">here</a> so you can check to see if the public api is currently running.
 			</p>
 		</div>
+
+
+		<div id="content">
+			<h2>Rules</h2>
+			<p>
+				The point of the game is to apply deductive reasoning in order to solve a secret word puzzle in a manner vaguely similar to a famous pen-and-paper game commonly known as Hangman. Once a player begins a game, it is known as a match. A match begins with the selection of a secret word. The player's task is to deduce the word by asking questions about letters. Secret words must adhere to a set of criteria. Each word must be exactly five letters long, and contain no repeated letters. For the sake of this project, valid words are taken from the official ENABLE Word List project, used by such prominent word games as Scrabble and Words With Friends.
+			</p>
+			<p>
+				Once a secret word is selected, the letters composing the word are removed from the alphabet, creating a subset. The player then asks which letters remain in the subset one at a time by naming indexes. For example, "what is the letter at index 0?" would be a valid question. If the answer to that question is "A" then the player knows that the letter A is not used in the secret word. If the answer to that question is "C" then the player may deduce that both letters A and B are in the secret word, and may begin solving the puzzle by asking further questions and thinking through anagrams of known letters. The challenge is to solve the puzzle as quickly as possible. A player may not attempt consecutive solutions, an incorrect solution attempt must be followed by an index inquiry prior to a subsequent solution attempt.
+			</p>
+			<p>
+				The complete list of all possible words is available through the API. This will help with algorithmic solutions.
+			</p>
+
+			<p>That's it! Simple rules, but tricky thinking.</p>
+		</div>
+
+
+		<div id="content">
+			<h2>Endpoints</h2>
+
+			<p>
+				There is a WADL file documenting service endpoints available <a href="#">here</a>.
+			</p>
+
+			<p>
+				All deduce-server endpoints return data as JSON. Response bodies represent a response entity wrapper, containing status and message values for indicating successful or erroneous invocations, along with an entity. The entity will vary based on the endpoint. The one exception is the listValidWords endpoint, which returns only a JSON list of words.
+			</p>
+
+			<ul>
+				<li>POST /deduceMatch/createMatch
+
+					<p>
+						Creates a new match, returning the match details, including match id, which will be used for subsequent operations.
+					</p>
+
+					<p>
+						example response:
+					</p>
+
+					<blockquote><pre>
+					Content-Length →246
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 02:46:37 GMT
+					Location →http://localhost:8080/57d0d10d85770e0319119843/details
+					
+					{
+					  "status": "CREATED",
+					  "message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "[UNSOLVED]",
+					    "isSolved": false,
+					    "events": []
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<li>GET /deduceMatch/{match_id}/details
+
+					<p>
+						Returns details for the specified match.
+					</p>
+
+					<p>
+						Example response:
+					</p>
+
+					<blockquote><pre>
+					Content-Length →179
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 02:50:35 GMT
+
+					{
+					  "status": "OK",
+					  "message": "Match found",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "[UNSOLVED]",
+					    "isSolved": false,
+					    "events": []
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<li>GET /deduceMatch/{match_id}/letterAtIndex/{index}
+
+					<p>
+					Returns the letter at specified index within the alphabet subset for the specified match. This also adds an event to the match details.
+					</p>
+
+					<p>
+						Example response:
+					</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "P"
+					}
+					</pre></blockquote>
+				</li>
+
+
+				<li>PUT /deduceMatch/{match_id}/solve/{solution}
+
+					<p>
+						Returns match details, which will indicate successful or unsuccessful solution attempt. This also adds an event to the match deetails.
+					</p>
+
+					<p>
+						Example response:
+					</p>
+
+					<blockquote><pre>
+					Content-Length →437
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:11:42 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Solution Incorrect",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "[UNSOLVED]",
+					    "isSolved": false,
+					    "events": [
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 12 - letter: P",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "SOLUTION_ATTEMPT",
+					        "details": "BLUES",
+					        "date": "Wed Sep 07 22:11:42 CDT 2016"
+					      }
+					    ]
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<li>GET /listValidWords
+
+					<p>
+						Returns a list of all valid words fitting the criteria for consideration.
+					</p>
+
+					<p>
+						Example response:
+					</p>
+
+					<blockquote><pre>
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:15:11 GMT
+					Transfer-Encoding →chunked
+					  
+					{
+					  "status": "OK",
+					  "message": "SUCCESS: Words list found.",
+					  "entity": {
+					    "id": "581932f909db5a75a65a814e",
+					    "words": [
+					      "DUSKY",
+					      "HOCUS",
+					      "QUICK",
+					      "GRANT",
+					      "OCTAD",
+					  ...
+					}
+					</pre></blockquote>
+				</li>
+			</ul>
+		</div>
+
+
+		<div id="content">
+			<h2>Example match</h2>
+			<p>
+				The following steps demonstrate how a full match might be played. We begin by creating a match.
+			</p>
+
+			<ul>
+				<li>
+					<p>POST /deduceMatch/createMatch</p>
+
+					<blockquote><pre>
+					Content-Length →246
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 02:46:37 GMT
+					Location →http://localhost:8080/57d0d10d85770e0319119843/details
+					
+					{
+					  "status": "CREATED",
+					  "message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "[UNSOLVED]",
+					    "isSolved": false,
+					    "events": []
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					We will now use the match id 57d0d10d85770e0319119843 for all subsequent actions on this match. For the next step, let's see what letter exists at index 0.
+				</p>
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/0</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "C"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					Note that the letter at index 0 is C. This means both letters A and B are in the secret word. We now know 2 of the five letters in the word. Since five letters have been removed from the alphabet, there are 21 letters in the subset. So our known picture of the subset is as below.
+				</p>
+
+				<table>
+					<tr>
+						<th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+					</tr>
+					<tr>
+						<td>C</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+					</tr>
+				</table>
+
+				<p>
+					An algorithmic client can begin applying logic to the words list using the two known letters to narrow the possible solutions down. But for now, let's just assume interactive play and try a different index inquiry. Lets try index 10.
+				</p>
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/10</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "M"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					If you start with letter C on index 0, and count forward to index 10, you find that letter M is the expected value. This means that none of the letters between C and M are in the secret word. This deductive conclusion allows us to fill in much of the known subset, making the word much easier to guess.
+				</p>
+
+				<table>
+					<tr>
+						<th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+					</tr>
+					<tr>
+						<td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+					</tr>
+				</table>
+
+				<p>Now let's check on index 15.
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/15</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "U"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					Interesting. The letter at index 15 is U. The letter U is eight places past the letter M in the full alphabet. This means that three of those seven in-between letters are in our secret word. We already know two of the letters in the word, so this tells us quite a bit. First let's fill in our known subset table. Because we know the remaining three letters all exist between M and U, then none of the letters after U are in the secret word.
+				</p>
+
+				<table>
+					<tr>
+						<th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+					</tr>
+					<tr>
+						<td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>?</td><td>?</td><td>?</td><td>?</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td>
+					</tr>
+				</table>
+
+				<p>
+					So the letters in our secret word could be expressed as A, B, [N|O|P|Q|R|S|T], [N|O|P|Q|R|S|T], [N|O|P|Q|R|S|T]. Perhaps a regular expression could help? Wait, we're doing this with our minds, so we'll carry on and try zeroing in on some letters. Let's look at index 12.
+				</p>
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/12</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "P"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					The letter at index 12 is P. Since index 10 is M, this means that either N or O is in our secret word. This also lets us fill in the table a bit more.
+				</p>
+
+				<table>
+					<tr>
+						<th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+					</tr>
+					<tr>
+						<td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>?</td><td>P</td><td>?</td><td>?</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td>
+					</tr>
+				</table>
+
+				<p>
+					This means our letters list looks a bit different: A, B, [N|O], [Q|R|S|T], [Q|R|S|T]. We're getting closer! Lets look at index 14.
+				</p>
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/14</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "S"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					Ah ha! Index 14 is S. This gives us even more information. Lets look at the table.
+				</p>
+
+				<table>
+					<tr>
+						<th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+					</tr>
+					<tr>
+						<td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>?</td><td>P</td><td>?</td><td>S</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td>
+					</tr>
+				</table>
+
+				<p>
+					Index 14 is S and index 15 is U. So now we know the letter T is in our word. So now our known letters list look like this: A, B, [N|O], [Q|R|S], T.
+				<p>
+
+				<p>
+					Maybe the word is BOAST!
+				</p>
+
+				<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/BOAST
+
+					<blockquote><pre>
+					Content-Length →437
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:11:42 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Solution Incorrect",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "[UNSOLVED]",
+					    "isSolved": false,
+					    "events": [
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 0 - letter: C",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 10 - letter: M",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 15 - letter: U",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 12 - letter: P",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 14 - letter: S",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "SOLUTION_ATTEMPT",
+					        "details": "BOAST",
+					        "date": "Wed Sep 07 22:11:42 CDT 2016"
+					      }
+					    ]
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					The word is not BOAST! But lets look at the results of that solution attempt. You see it has each of the actions we have performed so far in the match details. This lets us count our steps to see how efficient we are. So far we've taken 6 steps, and our table only has two empty spots left. Thus is the power of deduction. We could continue to make subsequent guesses, but the game rules require us to make an index query prior to more solution attempts. So, lets pick one of the two remaining unknown indexes, lets try 11.
+				</p>
+
+
+				<li>
+					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/11</p>
+
+					<blockquote><pre>
+					Content-Length →64
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:00:23 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": "N"
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					So the letter at index 11 is N. Because we know index 12 is P, this tells us that the letter O is in our word. But more importantly, it allows us to make another solution attempt. We probably don't need the table as much anymore, at this point we know the letters are A, B, O, [Q|R|S], T. Is the word ABORT?
+				</p>
+
+					<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/ABORT
+
+					<blockquote><pre>
+					Content-Length →437
+					Content-Type →application/json
+					Date →Thu, 08 Sep 2016 03:11:42 GMT
+					  
+					{
+					  "status": "OK",
+					  "message": "Success",
+					  "entity": {
+					    "id": "57d0d10d85770e0319119843",
+					    "solution": "ABORT",
+					    "isSolved": true,
+					    "events": [
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 0 - letter: C",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 10 - letter: M",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 15 - letter: U",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 12 - letter: P",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 14 - letter: S",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "SOLUTION_ATTEMPT",
+					        "details": "BOAST",
+					        "date": "Wed Sep 07 22:11:42 CDT 2016"
+					      },
+					      {
+					        "eventName": "LETTER_AT_INDEX",
+					        "details": "index: 11 - letter: N",
+					        "date": "Wed Sep 07 22:00:23 CDT 2016"
+					      },
+					      {
+					        "eventName": "SOLUTION_ATTEMPT",
+					        "details": "ABORT",
+					        "date": "Wed Sep 07 22:11:42 CDT 2016"
+					      }
+					    ]
+					  }
+					}
+					</pre></blockquote>
+				</li>
+
+				<p>
+					Success! We solved the puzzle in eight steps. Less than half the minimum number of steps required by the brute-force algorithmic client.
+				</p>
+
+				<p>
+					Hopefully after this exercise you understand how to use the deduce-api service, and feel inspired to write interesting client implementations in your favorite programming languages.
+				</p>
+			</ul>
+
+		</div>
+
 		<div id="footer">
 			<p>
 				Project by <a href="https://github.com/illingtonFlex">illingtonFlex</a>
