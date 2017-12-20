@@ -47,8 +47,12 @@ body{
 	font-family: georgia;
 	display: inline-block;
 }
+.scrollable {
+	overflow-x: scroll;
+}
 #content{
 	margin: 30px 30px;
+	overflow:hidden;
 	background: white;
 	padding: 20px;
 	clear: both;
@@ -137,7 +141,8 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 						example response:
 					</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →246
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 02:46:37 GMT
@@ -153,7 +158,8 @@ Location →http://localhost:8080/57d0d10d85770e0319119843/details
 			"events": []
 	
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<li>GET /deduceMatch/{match_id}/details
@@ -165,8 +171,8 @@ Location →http://localhost:8080/57d0d10d85770e0319119843/details
 					<p>
 						Example response:
 					</p>
-
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →179
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 02:50:35 GMT
@@ -181,7 +187,8 @@ Date →Thu, 08 Sep 2016 02:50:35 GMT
 		"events": []
 	}
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<li>GET /deduceMatch/{match_id}/letterAtIndex/{index}
@@ -194,7 +201,8 @@ Date →Thu, 08 Sep 2016 02:50:35 GMT
 						Example response:
 					</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -204,7 +212,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "P"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 
@@ -218,7 +227,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 						Example response:
 					</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →437
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:11:42 GMT
@@ -244,7 +254,8 @@ Date →Thu, 08 Sep 2016 03:11:42 GMT
 		]
 	}
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<li>GET /listValidWords
@@ -257,7 +268,8 @@ Date →Thu, 08 Sep 2016 03:11:42 GMT
 						Example response:
 					</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:15:11 GMT
 Transfer-Encoding →chunked
@@ -276,7 +288,8 @@ Transfer-Encoding →chunked
 		...
 		]
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -292,7 +305,8 @@ Transfer-Encoding →chunked
 				<li>
 					<p>POST /deduceMatch/createMatch</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →246
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 02:46:37 GMT
@@ -308,7 +322,8 @@ Location →http://localhost:8080/57d0d10d85770e0319119843/details
 		"events": []
 	}
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -317,8 +332,9 @@ Location →http://localhost:8080/57d0d10d85770e0319119843/details
 
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/0</p>
-
-					<blockquote><pre>
+	
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/jsonDate →Thu, 08 Sep 2016 03:00:23 GMT
 					  
@@ -327,7 +343,8 @@ Content-Type →application/jsonDate →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "C"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -349,8 +366,9 @@ Content-Type →application/jsonDate →Thu, 08 Sep 2016 03:00:23 GMT
 
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/10</p>
-
-					<blockquote><pre>
+	
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -360,7 +378,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "M"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -381,7 +400,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/15</p>
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -391,7 +411,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "U"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -413,8 +434,9 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/12</p>
-
-					<blockquote><pre>
+	
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -424,7 +446,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "P"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -446,8 +469,9 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/14</p>
-
-					<blockquote><pre>
+	
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -457,7 +481,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "S"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -483,7 +508,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 
 				<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/BOAST
 
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →437
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:11:42 GMT
@@ -529,7 +555,8 @@ Date →Thu, 08 Sep 2016 03:11:42 GMT
 		]
 	}
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -539,8 +566,9 @@ Date →Thu, 08 Sep 2016 03:11:42 GMT
 
 				<li>
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/11</p>
-
-					<blockquote><pre>
+	
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →64
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:00:23 GMT
@@ -550,7 +578,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 	"message": "Success",
 	"entity": "N"
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
@@ -558,8 +587,8 @@ Date →Thu, 08 Sep 2016 03:00:23 GMT
 				</p>
 
 					<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/ABORT
-
-					<blockquote><pre>
+					<div class="scrollable">
+						<blockquote><pre>
 Content-Length →437
 Content-Type →application/json
 Date →Thu, 08 Sep 2016 03:11:42 GMT
@@ -615,7 +644,8 @@ Date →Thu, 08 Sep 2016 03:11:42 GMT
 		]
 	}
 }
-					</pre></blockquote>
+						</pre></blockquote>
+					</div>
 				</li>
 
 				<p>
