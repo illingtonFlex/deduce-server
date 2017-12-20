@@ -85,14 +85,14 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 				Welcome to the landing page for deduce-api, a free, open-source RESTful web service API implementation of a game ruleset. The API is intended to be used as an educational tool, allowing developers to either attempt programmatic or algorithmic solution of the game, or the implementation of user interfaces allowing interactive play, or any other creative implementation you can think of.
 			</p>
 			<p> 
-				The server is (hopefully) currently running and available publicly on port 8080 on this domain (deduce-api.xyz). You can implement any client code you like to access the public instance, or you can download the server code from the <a href="https://github.com/illingtonFlex/deduce-server">GitHub repository</a> and run it locally.
+				The server is (hopefully) currently running and available publicly on port 8080 on this domain (deduce-api.ws). You can implement any client code you like to access the public instance, or you can download the server code from the <a href="https://github.com/illingtonFlex/deduce-server">GitHub repository</a> and run it locally.
 			</p>
 			<p>
 				There is also a reference algorithmic client implementation available <a href="https://github.com/illingtonFlex/deduce-client-algorithmic">here</a>. This client is written in Node.js, and demonstrates a naive or "brute-force" solution with a best-case scenario of 22 steps to solve. Surely you can find a more clever algorithm.
 			</p>
 
 			<p>
-				There is a server status page <a href="#">here</a> so you can check to see if the public api is currently running.
+				There is a server status page <a href="http://deduce-api.ws:8080/system/health">here</a> so you can check to see if the public api is currently running.
 			</p>
 		</div>
 
@@ -116,12 +116,14 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 		<div id="content">
 			<h2>Endpoints</h2>
 
+			<p>When using the public API, all endpoints are relative to the base URL <b>http://deduce-api.ws:8080</b></p>
+
 			<p>
-				There is a WADL file documenting service endpoints available <a href="#">here</a>.
+				There is a WADL file documenting service endpoints available <a href="http://deduce-api.wadl:8080/application.wadl">here</a>.
 			</p>
 
 			<p>
-				All deduce-server endpoints return data as JSON. Response bodies represent a response entity wrapper, containing status and message values for indicating successful or erroneous invocations, along with an entity. The entity will vary based on the endpoint. The one exception is the listValidWords endpoint, which returns only a JSON list of words.
+				All deduce-api endpoints return data as JSON. Response bodies represent a response entity wrapper, containing status and message values for indicating successful or erroneous invocations, along with an entity. The entity will vary based on the endpoint. The one exception is the listValidWords endpoint, which returns only a JSON list of words.
 			</p>
 
 			<ul>
@@ -136,21 +138,21 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					</p>
 
 					<blockquote><pre>
-					Content-Length →246
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 02:46:37 GMT
-					Location →http://localhost:8080/57d0d10d85770e0319119843/details
-					
-					{
-					  "status": "CREATED",
-					  "message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "[UNSOLVED]",
-					    "isSolved": false,
-					    "events": []
-					  }
-					}
+Content-Length →246
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 02:46:37 GMT
+Location →http://localhost:8080/57d0d10d85770e0319119843/details
+
+{
+	"status": "CREATED",
+	"message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
+	"entity": {
+			"id": "57d0d10d85770e0319119843",
+			"solution": "[UNSOLVED]",
+			"isSolved": false,
+			"events": []
+	
+}
 					</pre></blockquote>
 				</li>
 
@@ -165,20 +167,20 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					</p>
 
 					<blockquote><pre>
-					Content-Length →179
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 02:50:35 GMT
+Content-Length →179
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 02:50:35 GMT
 
-					{
-					  "status": "OK",
-					  "message": "Match found",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "[UNSOLVED]",
-					    "isSolved": false,
-					    "events": []
-					  }
-					}
+{
+	"status": "OK",
+	"message": "Match found",
+	"entity": {
+		"id": "57d0d10d85770e0319119843",
+		"solution": "[UNSOLVED]",
+		"isSolved": false,
+		"events": []
+	}
+}
 					</pre></blockquote>
 				</li>
 
@@ -193,15 +195,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "P"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "P"
+}
 					</pre></blockquote>
 				</li>
 
@@ -209,7 +211,7 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 				<li>PUT /deduceMatch/{match_id}/solve/{solution}
 
 					<p>
-						Returns match details, which will indicate successful or unsuccessful solution attempt. This also adds an event to the match deetails.
+						Returns match details, which will indicate successful or unsuccessful solution attempt. This also adds an event to the match details.
 					</p>
 
 					<p>
@@ -217,31 +219,31 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					</p>
 
 					<blockquote><pre>
-					Content-Length →437
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:11:42 GMT
+Content-Length →437
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:11:42 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Solution Incorrect",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "[UNSOLVED]",
-					    "isSolved": false,
-					    "events": [
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 12 - letter: P",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "SOLUTION_ATTEMPT",
-					        "details": "BLUES",
-					        "date": "Wed Sep 07 22:11:42 CDT 2016"
-					      }
-					    ]
-					  }
-					}
+{
+	"status": "OK",
+	"message": "Solution Incorrect",
+	"entity": {
+		"id": "57d0d10d85770e0319119843",
+		"solution": "[UNSOLVED]",
+		"isSolved": false,
+		"events": [
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 12 - letter: P",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "SOLUTION_ATTEMPT",
+				"details": "BLUES",
+				"date": "Wed Sep 07 22:11:42 CDT 2016"
+			}
+		]
+	}
+}
 					</pre></blockquote>
 				</li>
 
@@ -256,23 +258,24 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					</p>
 
 					<blockquote><pre>
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:15:11 GMT
-					Transfer-Encoding →chunked
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:15:11 GMT
+Transfer-Encoding →chunked
 					  
-					{
-					  "status": "OK",
-					  "message": "SUCCESS: Words list found.",
-					  "entity": {
-					    "id": "581932f909db5a75a65a814e",
-					    "words": [
-					      "DUSKY",
-					      "HOCUS",
-					      "QUICK",
-					      "GRANT",
-					      "OCTAD",
-					  ...
-					}
+{
+	"status": "OK",
+	"message": "SUCCESS: Words list found.",
+	"entity": {
+		"id": "581932f909db5a75a65a814e",
+		"words": [
+		"DUSKY",
+		"HOCUS",
+		"QUICK",
+		"GRANT",
+		"OCTAD",
+		...
+		]
+}
 					</pre></blockquote>
 				</li>
 			</ul>
@@ -290,21 +293,21 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>POST /deduceMatch/createMatch</p>
 
 					<blockquote><pre>
-					Content-Length →246
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 02:46:37 GMT
-					Location →http://localhost:8080/57d0d10d85770e0319119843/details
+Content-Length →246
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 02:46:37 GMT
+Location →http://localhost:8080/57d0d10d85770e0319119843/details
 					
-					{
-					  "status": "CREATED",
-					  "message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "[UNSOLVED]",
-					    "isSolved": false,
-					    "events": []
-					  }
-					}
+{
+	"status": "CREATED",
+	"message": "Match created: http://localhost:8080/57d0d10d85770e0319119843/details",
+	"entity": {
+		"id": "57d0d10d85770e0319119843",
+		"solution": "[UNSOLVED]",
+		"isSolved": false,
+		"events": []
+	}
+}
 					</pre></blockquote>
 				</li>
 
@@ -316,15 +319,14 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/0</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/jsonDate →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "C"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "C"
+}
 					</pre></blockquote>
 				</li>
 
@@ -349,15 +351,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/10</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "M"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "M"
+}
 					</pre></blockquote>
 				</li>
 
@@ -380,15 +382,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/15</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "U"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "U"
+}
 					</pre></blockquote>
 				</li>
 
@@ -413,15 +415,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/12</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "P"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "P"
+}
 					</pre></blockquote>
 				</li>
 
@@ -446,15 +448,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/14</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "S"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "S"
+}
 					</pre></blockquote>
 				</li>
 
@@ -482,51 +484,51 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 				<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/BOAST
 
 					<blockquote><pre>
-					Content-Length →437
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:11:42 GMT
+Content-Length →437
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:11:42 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Solution Incorrect",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "[UNSOLVED]",
-					    "isSolved": false,
-					    "events": [
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 0 - letter: C",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 10 - letter: M",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 15 - letter: U",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 12 - letter: P",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 14 - letter: S",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "SOLUTION_ATTEMPT",
-					        "details": "BOAST",
-					        "date": "Wed Sep 07 22:11:42 CDT 2016"
-					      }
-					    ]
-					  }
-					}
+{
+	"status": "OK",
+	"message": "Solution Incorrect",
+	"entity": {
+		"id": "57d0d10d85770e0319119843",
+		"solution": "[UNSOLVED]",
+		"isSolved": false,
+		"events": [
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 0 - letter: C",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 10 - letter: M",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 15 - letter: U",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 12 - letter: P",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 14 - letter: S",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "SOLUTION_ATTEMPT",
+				"details": "BOAST",
+				"date": "Wed Sep 07 22:11:42 CDT 2016"
+			}
+		]
+	}
+}
 					</pre></blockquote>
 				</li>
 
@@ -539,15 +541,15 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<p>GET /deduceMatch/57d0d10d85770e0319119843/letterAtIndex/11</p>
 
 					<blockquote><pre>
-					Content-Length →64
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:00:23 GMT
+Content-Length →64
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:00:23 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": "N"
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": "N"
+}
 					</pre></blockquote>
 				</li>
 
@@ -558,61 +560,61 @@ ul li a{ box-shadow: 0px 1px 1px #999; }
 					<li>PUT /deduceMatch/57d0d10d85770e0319119843/solve/ABORT
 
 					<blockquote><pre>
-					Content-Length →437
-					Content-Type →application/json
-					Date →Thu, 08 Sep 2016 03:11:42 GMT
+Content-Length →437
+Content-Type →application/json
+Date →Thu, 08 Sep 2016 03:11:42 GMT
 					  
-					{
-					  "status": "OK",
-					  "message": "Success",
-					  "entity": {
-					    "id": "57d0d10d85770e0319119843",
-					    "solution": "ABORT",
-					    "isSolved": true,
-					    "events": [
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 0 - letter: C",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 10 - letter: M",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 15 - letter: U",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 12 - letter: P",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 14 - letter: S",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "SOLUTION_ATTEMPT",
-					        "details": "BOAST",
-					        "date": "Wed Sep 07 22:11:42 CDT 2016"
-					      },
-					      {
-					        "eventName": "LETTER_AT_INDEX",
-					        "details": "index: 11 - letter: N",
-					        "date": "Wed Sep 07 22:00:23 CDT 2016"
-					      },
-					      {
-					        "eventName": "SOLUTION_ATTEMPT",
-					        "details": "ABORT",
-					        "date": "Wed Sep 07 22:11:42 CDT 2016"
-					      }
-					    ]
-					  }
-					}
+{
+	"status": "OK",
+	"message": "Success",
+	"entity": {
+		"id": "57d0d10d85770e0319119843",
+		"solution": "ABORT",
+		"isSolved": true,
+		"events": [
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 0 - letter: C",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 10 - letter: M",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 15 - letter: U",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 12 - letter: P",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 14 - letter: S",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "SOLUTION_ATTEMPT",
+				"details": "BOAST",
+				"date": "Wed Sep 07 22:11:42 CDT 2016"
+			},
+			{
+				"eventName": "LETTER_AT_INDEX",
+				"details": "index: 11 - letter: N",
+				"date": "Wed Sep 07 22:00:23 CDT 2016"
+			},
+			{
+				"eventName": "SOLUTION_ATTEMPT",
+				"details": "ABORT",
+				"date": "Wed Sep 07 22:11:42 CDT 2016"
+			}
+		]
+	}
+}
 					</pre></blockquote>
 				</li>
 
