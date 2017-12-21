@@ -17,6 +17,9 @@ public class JerseyConfig extends ResourceConfig
     {
         register(new LoggingFeature(Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO,
                 LoggingFeature.Verbosity.PAYLOAD_ANY, Integer.MAX_VALUE));
+
+        register(CORSResponseFilter.class);
+
         register(Create.class);
         register(ListWords.class);
         register(LetterAtIndex.class);
