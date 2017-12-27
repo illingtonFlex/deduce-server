@@ -1,52 +1,17 @@
 package jcn.deduce.server.model;
 
+
+import lombok.*;
+
 import javax.ws.rs.core.Response;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class DeduceResponseEntity
 {
-    private Response.Status status;
-    private String message;
-    private Object entity;
-
-    public DeduceResponseEntity()
-    {
-
-    }
-
-    public DeduceResponseEntity(Response.Status httpStatus, Object entity, String message)
-    {
-        this.entity = entity;
-        this.status = httpStatus;
-        this.message = message;
-    }
-
-    public String getMessage()
-    {
-        return message;
-    }
-
-    public void setMessage(String msg)
-    {
-        this.message = msg;
-    }
-
-    public Object getEntity()
-    {
-        return entity;
-    }
-
-    public void setEntity(Object entity)
-    {
-        this.entity = entity;
-    }
-
-    public Response.Status getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(Response.Status status)
-    {
-        this.status = status;
-    }
+    @Getter @Setter @NonNull private Response.Status status;
+    @Getter @Setter private Object entity;
+    @Getter @Setter @NonNull private String message;
 }

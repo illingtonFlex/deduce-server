@@ -1,32 +1,21 @@
 package jcn.deduce.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 import java.util.Random;
 
+@EqualsAndHashCode
+@ToString
 public class DeduceWordsList
 {
     @Id
+    @Getter(onMethod = @__( @JsonIgnore ))
+    @Setter
     private String id;
-    private String[] words;
 
-    public String[] getWords() {
-        return words;
-    }
-
-    public void setWords(String[] words) {
-        this.words = words;
-    }
-
-    @JsonIgnore
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    @Getter @Setter private String[] words;
 
     public String getRandomWord()
     {
